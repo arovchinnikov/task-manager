@@ -1,0 +1,18 @@
+{
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+
+        }
+    },
+    "config": {
+        "platform": {
+            "php": "8.1"
+        },
+        "optimize-autoloader": true,
+        "sort-packages": true
+    },
+    "require": {
+
+    }
+}
