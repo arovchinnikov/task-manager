@@ -60,7 +60,7 @@ class Request
      * @param string $type
      * @return bool
      */
-    public static function addParams(array $params, string $type = self::GET): bool
+    public static function setParams(array $params, string $type = self::GET): bool
     {
         if (!empty($params) && in_array($type, [self::GET, self::POST])) {
             self::$data[$type] = array_merge(self::$data[$type], $params);
@@ -73,7 +73,7 @@ class Request
     {
         $url = explode('?', $_SERVER['REQUEST_URI'])[0];
 
-        if (substr($url, -0, 1) === '/') {
+        if (str_ends_with($url, '/')) {
             $url = substr($url,0,-1);
         }
         self::$url = $url;
