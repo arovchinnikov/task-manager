@@ -2,7 +2,8 @@
     "type": "project",
     "autoload": {
         "psr-4": {
-            "Core\\": "common/core"
+            "Core\\": "common/core",
+            "App\\": "app"
         }
     },
     "config": {

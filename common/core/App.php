@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace Core;
 
 use Core\Modules\Http\Request;
+use Core\Modules\Routing\Router;
 
 class App
 {
@@ -18,5 +19,7 @@ class App
     public static function run(): void
     {
         Request::init();
+        (new Router())
+            ->dispatch();
     }
 }
