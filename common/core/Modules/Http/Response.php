@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Core\Modules\Http;
 
 use Core\Modules\Http\Exceptions\ResponseException;
+use Twig\Error\Error;
+use Twig_Environment;
+use Twig_Loader_Filesystem;
 
 class Response
 {
@@ -14,36 +17,8 @@ class Response
     /* 4XX error codes */
     public const NOT_FOUND = 404;
 
-    private array|string $data = '';
     private int $responseCode = self::OK;
-
-    public function data(array $data): self
-    {
-        $this->data = $data;
-
-        return $this;
-    }
-
-    public function json(array $data = null): self
-    {
-        header('Content-Type: application/json');
-        $this->data = json_encode($data ?? $this->data);
-
-        return $this;
-    }
-
-    /**
-     * @throws ResponseException
-     */
-    public function html(string $path): self
-    {
-        if (!file_exists($path)) {
-            ResponseException::htmlNotFound($path);
-        }
-        $this->data = file_get_contents($path);
-
-        return $this;
-    }
+    private array $params = [];
 
     public function code(int $responseCode): self
     {
@@ -52,10 +27,39 @@ class Response
         return $this;
     }
 
-    public function send(): void
+    public function params(array $params): self
+    {
+        $this->params = $params;
+        return $this;
+    }
+
+    public function json(array $data): void
     {
         http_response_code($this->responseCode);
-        print_r($this->data);
+        header('Content-Type: application/json');
+        print_r(json_encode($data));
+        die();
+    }
+
+    /**
+     * @throws ResponseException
+     */
+    public function render(string $file): void
+    {
+        http_response_code($this->responseCode);
+        $loader = new Twig_Loader_Filesystem(ROOT.'/resources');
+
+        $twig = new Twig_Environment(
+            $loader,
+            ['cache' => ROOT.'/tmp/cache',]
+        );
+
+        try {
+            echo $twig->render($file, $this->params);
+        } catch (Error $e) {
+            ResponseException::twigError($e);
+        }
+
         die();
     }
 }

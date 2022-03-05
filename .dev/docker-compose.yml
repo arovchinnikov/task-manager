@@ -6,6 +6,7 @@ networks:
 
 services:
   nginx:
+    container_name: nginx
     build: ./nginx
     restart: always
     ports:
@@ -18,7 +19,9 @@ services:
       - app
     networks:
       - app
+
   app:
+    container_name: app
     build: ./app
     restart: always
     links:
@@ -27,7 +30,9 @@ services:
       - ../:/var/www/dev/
     networks:
       - app
+
   postgres:
+    container_name: postgres
     build: ./postgres
     restart: always
     ports:
@@ -40,5 +45,6 @@ services:
       POSTGRES_PASSWORD: "admin"
     networks:
       - app
+
 volumes:
   postges_data:

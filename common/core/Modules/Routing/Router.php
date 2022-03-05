@@ -144,8 +144,7 @@ class Router
     private function notFound(): void
     {
         (new Response())
-            ->html(ROOT.'/resources/html/404.html')
             ->code(Response::NOT_FOUND)
-            ->send();
+            ->render("/pages/404.html");
     }
 }
