@@ -11,8 +11,16 @@ class ResponseException extends CoreException
     /**
      * @throws ResponseException
      */
-    public static function htmlNotFound(string $path)
+    public static function fileNotFound(string $path)
     {
-        throw new self('Html file "'.$path.'" not found.');
+        throw new self('File "'.$path.'" not found.');
+    }
+
+    /**
+     * @throws ResponseException
+     */
+    public static function twigError(\Exception $twigException)
+    {
+        throw new self($twigException->message);
     }
 }

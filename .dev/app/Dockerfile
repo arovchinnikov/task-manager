@@ -1,6 +1,6 @@
 FROM php:8.1-fpm-alpine
 
-RUN apk add --no-cache zip git curl make
+RUN apk add --no-cache zip git curl make bash
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 

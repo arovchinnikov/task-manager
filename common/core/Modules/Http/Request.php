@@ -51,7 +51,7 @@ class Request
         self::$method = $_SERVER['REQUEST_METHOD'];
         self::$data[self::GET] = $_GET;
         self::$data[self::POST] = $_POST;
-        self::initUrl();
+        self::createUrl();
     }
 
     /**
@@ -69,7 +69,7 @@ class Request
         return false;
     }
 
-    private static function initUrl(): void
+    private static function createUrl(): void
     {
         $url = explode('?', $_SERVER['REQUEST_URI'])[0];
 
