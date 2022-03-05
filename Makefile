@@ -9,6 +9,7 @@ up:
 	$(compose) up -d
 install: up
 	$(app) composer install
+	npm install
 down:
 	$(compose) down
 destroy:
