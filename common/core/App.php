@@ -9,6 +9,7 @@ namespace Core;
 
 use Core\Modules\Http\Request;
 use Core\Modules\Routing\Router;
+use Core\Modules\Settings\Config;
 
 class App
 {
@@ -18,6 +19,7 @@ class App
      */
     public static function run(): void
     {
+        Config::init();
         Request::init();
         (new Router())
             ->dispatch();

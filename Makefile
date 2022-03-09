@@ -8,6 +8,7 @@ container:
 up:
 	$(compose) up -d
 install: up
+	cp -n $(CURDIR)/.env.example $(CURDIR)/.env
 	$(app) composer install
 	npm install
 down:
