@@ -7,10 +7,14 @@ declare(strict_types=1);
 
 namespace Core\Modules\Routing;
 
+use Core\Modules\Data\Container;
+use Core\Modules\Data\Exceptions\ContainerException;
 use Core\Modules\Http\Exceptions\ResponseException;
 use Core\Modules\Http\Request;
 use Core\Modules\Http\Response;
 use Core\Modules\Routing\Exceptions\RouterException;
+use ReflectionClass;
+use ReflectionException;
 
 class Router
 {
@@ -45,7 +49,7 @@ class Router
         $route = $this->match();
 
         if (empty($route)) {
-            $this->notFound();
+            (new Response())->notFound();
         }
 
         $this->load($route);
@@ -70,7 +74,7 @@ class Router
 
     private function getRoutePattern(Route $route): string
     {
-        $url = $route->url;
+        $url = $route->getUrl();
         $url = explode('/', $url);
         $pattern = [];
 
@@ -88,28 +92,34 @@ class Router
     }
 
     /**
-     * @throws RouterException
+     * @throws RouterException|ContainerException|ReflectionException
      */
     private function load(Route $route): void
     {
-        if (!method_exists($route->controller, $route->action)) {
-            RouterException::ControllerOrActionNotFound($route->controller, $route->action);
+        if (!method_exists($route->getController(), $route->getAction())) {
+            RouterException::ControllerOrActionNotFound($route->getController(), $route->getAction());
         }
-        $params = $this->checkActionParams($route);
+        $container = new Container();
 
-        $controller = $route->controller;
-        $action = $route->action;
+        $params = $this->checkActionParams($route, $container);
 
-        $controller = new $controller();
+        $controller = $route->getController();
+        $action = $route->getAction();
+
+        $controller = new $controller($container);
         $controller->$action(...$params);
     }
 
-    private function checkActionParams(Route $route): array
+    /**
+     * @throws ReflectionException
+     * @throws ContainerException
+     */
+    private function checkActionParams(Route $route, Container $container): array
     {
-        $controller = $route->controller;
-        $action = $route->action;
+        $controller = $route->getController();
+        $action = $route->getAction();
 
-        $reflection = new \ReflectionClass($controller);
+        $reflection = new ReflectionClass($controller);
 
         $methods = $reflection->getMethods();
 
@@ -128,23 +138,10 @@ class Router
 
         foreach ($parameters as $parameter) {
             $parameterClass = $parameter->getType()->getName();
-            if (!class_exists($parameterClass)) {
-                echo 'ss';
-            }
 
-            $params[] = new $parameterClass;
+            $params[] = $container->register($parameterClass, $parameterClass);
         }
 
         return $params;
-    }
-
-    /**
-     * @throws ResponseException
-     */
-    private function notFound(): void
-    {
-        (new Response())
-            ->code(Response::NOT_FOUND)
-            ->render("/pages/404.html");
     }
 }

@@ -51,7 +51,7 @@ class Response
 
         $twig = new Twig_Environment(
             $loader,
-            ['cache' => ROOT.'/tmp/cache',]
+            ['cache' => ROOT.'/common/tmp/cache/twig',]
         );
 
         try {
@@ -61,5 +61,25 @@ class Response
         }
 
         die();
+    }
+
+    /**
+     * @throws ResponseException
+     */
+    public function notFound(array $fields = null, bool $isApi = false): void
+    {
+        $this->code(Response::NOT_FOUND);
+
+        if (!$isApi) {
+            if (!empty($message)) {
+                $this->params['message'] = $message;
+            }
+            $this->render("/pages/404.html");
+        } else {
+            if (!empty($message)) {
+                $this->json($fields);
+            }
+            $this->json(['message' => 'Not found']);
+        }
     }
 }

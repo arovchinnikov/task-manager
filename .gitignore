@@ -1,4 +1,5 @@
 /.idea/
 /.dev/nginx/logs/
 /vendor/
-/tmp/
+/common/tmp/
+.env
