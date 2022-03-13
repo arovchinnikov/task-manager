@@ -74,7 +74,7 @@ class Router
 
     private function getRoutePattern(Route $route): string
     {
-        $url = $route->url;
+        $url = $route->getUrl();
         $url = explode('/', $url);
         $pattern = [];
 
@@ -96,15 +96,15 @@ class Router
      */
     private function load(Route $route): void
     {
-        if (!method_exists($route->controller, $route->action)) {
-            RouterException::ControllerOrActionNotFound($route->controller, $route->action);
+        if (!method_exists($route->getController(), $route->getAction())) {
+            RouterException::ControllerOrActionNotFound($route->getController(), $route->getAction());
         }
         $container = new Container();
 
         $params = $this->checkActionParams($route, $container);
 
-        $controller = $route->controller;
-        $action = $route->action;
+        $controller = $route->getController();
+        $action = $route->getAction();
 
         $controller = new $controller($container);
         $controller->$action(...$params);
@@ -116,8 +116,8 @@ class Router
      */
     private function checkActionParams(Route $route, Container $container): array
     {
-        $controller = $route->controller;
-        $action = $route->action;
+        $controller = $route->getController();
+        $action = $route->getAction();
 
         $reflection = new ReflectionClass($controller);
 

@@ -51,7 +51,7 @@ class Response
 
         $twig = new Twig_Environment(
             $loader,
-            ['cache' => ROOT.'/tmp/cache',]
+            ['cache' => ROOT.'/common/tmp/cache/twig',]
         );
 
         try {
