@@ -13,7 +13,7 @@ class ResponseException extends CoreException
      */
     public static function fileNotFound(string $path)
     {
-        throw new self('File "'.$path.'" not found.');
+        throw new self('File "' . $path . '" not found.');
     }
 
     /**

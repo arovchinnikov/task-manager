@@ -6,5 +6,4 @@ namespace Core\Base\Exceptions;
 
 class BaseException extends \Exception
 {
-
 }

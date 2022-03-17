@@ -47,11 +47,11 @@ class Response
     public function render(string $file): void
     {
         http_response_code($this->responseCode);
-        $loader = new Twig_Loader_Filesystem(ROOT.'/resources');
+        $loader = new Twig_Loader_Filesystem(ROOT . '/resources');
 
         $twig = new Twig_Environment(
             $loader,
-            ['cache' => ROOT.'/common/tmp/cache/twig',]
+            ['cache' => ROOT . '/tmp/cache/twig',]
         );
 
         try {

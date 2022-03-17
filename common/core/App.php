@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Главный исполняемый класс приложения
  */
@@ -28,8 +29,7 @@ class App
     {
         //TODO добавить обработку dev окружения
         error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
-        require_once ROOT.'/common/functions/debug.php';
-
+        require_once ROOT . '/common/functions/debug.php';
         Env::init();
         Request::init();
     }

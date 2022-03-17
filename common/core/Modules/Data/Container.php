@@ -22,7 +22,7 @@ class Container
 
         if (!is_object($class)) {
             try {
-                $class = new $class;
+                $class = new $class();
             } catch (Exception $e) {
                 ContainerException::createObjectError($class);
             }
