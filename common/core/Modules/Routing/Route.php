@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Содержит правила маршрута
  */
@@ -12,7 +13,6 @@ class Route
     private string $url;
     private string $controller;
     private string $action;
-
     public function __construct(string $url, string $controller, string $action)
     {
         $this->url = $url;

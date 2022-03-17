@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Базовый класс контроллера
  */
@@ -16,7 +17,6 @@ class Controller
     public Request $request;
     public Response $response;
     public Container $container;
-
     public function __construct(Container $container)
     {
         $this->request = new Request();

@@ -11,7 +11,7 @@ class RouterException extends BaseException
     /**
      * @throws RouterException
      */
-    public static function RouteUrlAlreadyExists(): self
+    public static function routeUrlAlreadyExists(): self
     {
         throw new self('Route url already exists');
     }
@@ -19,8 +19,8 @@ class RouterException extends BaseException
     /**
      * @throws RouterException
      */
-    public static function ControllerOrActionNotFound(string $controller, string $action): self
+    public static function controllerOrActionNotFound(string $controller, string $action): self
     {
-        throw new self('Controller - "'.$controller.'" or Action - "'.$action.'" not found.');
+        throw new self('Controller - "' . $controller . '" or Action - "' . $action . '" not found.');
     }
 }

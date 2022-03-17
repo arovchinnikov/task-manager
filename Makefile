@@ -7,6 +7,8 @@ container:
 	$(compose) exec app bash
 test:
 	$(app) vendor/bin/phpunit tests/
+cs:
+	$(app) vendor/bin/phpcs -v
 up:
 	$(compose) up -d
 install: up

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Класс работы с переменными окружения
  */
@@ -13,7 +14,7 @@ class Env
 {
     public static function init(): void
     {
-        (new Dotenv())->loadEnv(ROOT.'/.env');
+        (new Dotenv())->loadEnv(ROOT . '/.env');
     }
 
     public static function get(string $key = null): mixed

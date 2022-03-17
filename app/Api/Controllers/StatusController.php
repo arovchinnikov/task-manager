@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controllers\Api;
+namespace App\Api\Controllers;
 
 use Core\Base\Controller;
 use Core\Modules\Http\Response;
@@ -13,6 +13,6 @@ class StatusController extends Controller
     {
         $this->response
             ->code(Response::OK)
-            ->json(['success' => 'true']);
+            ->json(["success" => true]);
     }
 }

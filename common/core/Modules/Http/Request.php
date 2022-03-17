@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Класс управления данными http запроса
  */
@@ -11,11 +12,9 @@ class Request
 {
     public const GET = 'GET';
     public const POST = 'POST';
-
     private static string $url;
     private static string $method;
     private static array $data;
-
     public function url(): string
     {
         return self::$url ?? '';
@@ -72,9 +71,8 @@ class Request
     private static function createUrl(): void
     {
         $url = explode('?', $_SERVER['REQUEST_URI'])[0];
-
         if (str_ends_with($url, '/')) {
-            $url = substr($url,0,-1);
+            $url = substr($url, 0, -1);
         }
         self::$url = $url;
     }
