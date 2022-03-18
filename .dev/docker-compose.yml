@@ -38,7 +38,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - task_manager_postges_data:/var/lib/postgresql/data
+      - postges_data:/var/lib/postgresql/data
     environment:
       POSTGRES_HOST_AUTH_METHOD: "trust"
       POSTGRES_DB: "task_manager"
@@ -48,4 +48,4 @@ services:
       - app
 
 volumes:
-  task_manager_postges_data:
+  postges_data:
