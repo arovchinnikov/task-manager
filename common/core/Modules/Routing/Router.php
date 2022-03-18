@@ -27,7 +27,7 @@ class Router
     public function __construct()
     {
         self::$request = new Request();
-        require_once ROOT . '/config/routes_loader.php';
+        require_once ROOT . '/config/loader.php';
     }
 
     public static function add(string $url, string $method, string $controller, string $action): void

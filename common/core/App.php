@@ -25,12 +25,15 @@ class App
             ->dispatch();
     }
 
+    /**
+     * @throws Modules\Settings\Exceptions\EnvException
+     */
     private static function init(): void
     {
         //TODO добавить обработку dev окружения
         error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
         require_once ROOT . '/common/functions/debug.php';
-        Env::init();
+        Env::init(ROOT);
         Request::init();
     }
 }
