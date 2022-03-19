@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Core\Modules\Http;
 
+use Core\Modules\Data\Interfaces\Arrayable;
 use Core\Modules\Http\Exceptions\ResponseException;
 use Twig\Error\Error;
 use Twig_Environment;
@@ -18,7 +19,7 @@ class Response
     public const NOT_FOUND = 404;
 
     private int $responseCode = self::OK;
-    private array $params = [];
+    private array $data = [];
 
     public function code(int $responseCode): self
     {
@@ -27,59 +28,41 @@ class Response
         return $this;
     }
 
-    public function params(array $params): self
+    public function add(array|Arrayable $data): self
     {
-        $this->params = $params;
+        $this->data = array_merge($this->data, $this->prepareData($data));
+
         return $this;
     }
 
-    public function json(array $data): void
+    public function send(array|Arrayable $data = null): void
     {
         http_response_code($this->responseCode);
-        header('Content-Type: application/json');
-        print_r(json_encode($data));
-        die();
-    }
+        header("Content-Type: application/json");
 
-    /**
-     * @throws ResponseException
-     */
-    public function render(string $file): void
-    {
-        http_response_code($this->responseCode);
-        $loader = new Twig_Loader_Filesystem(ROOT . '/resources');
-
-        $twig = new Twig_Environment(
-            $loader,
-            ['cache' => ROOT . '/tmp/cache/twig',]
-        );
-
-        try {
-            echo $twig->render($file, $this->params);
-        } catch (Error $e) {
-            ResponseException::twigError($e);
-        }
-
-        die();
-    }
-
-    /**
-     * @throws ResponseException
-     */
-    public function notFound(array $fields = null, bool $isApi = false): void
-    {
-        $this->code(Response::NOT_FOUND);
-
-        if (!$isApi) {
-            if (!empty($message)) {
-                $this->params['message'] = $message;
-            }
-            $this->render("/pages/404.html");
+        if (empty($data)) {
+            $response = $this->data;
         } else {
-            if (!empty($message)) {
-                $this->json($fields);
-            }
-            $this->json(['message' => 'Not found']);
+            $response = array_merge($this->data, $this->prepareData($data));
         }
+
+        print_r(json_encode($response));
+        exit();
+    }
+
+    public function notFound(string $route = null): void
+    {
+        $this
+            ->code(Response::NOT_FOUND)
+            ->send(["message" => "route not found"]);
+    }
+
+    private function prepareData(array|Arrayable $data): array
+    {
+        if (is_object($data) && is_subclass_of($data, Arrayable::class)) {
+            return $data->toArray();
+        }
+
+        return $data;
     }
 }

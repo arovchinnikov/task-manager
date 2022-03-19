@@ -13,6 +13,6 @@ class StatusController extends Controller
     {
         $this->response
             ->code(Response::OK)
-            ->json(["success" => true]);
+            ->send(["success" => true]);
     }
 }
