@@ -27,10 +27,20 @@ class Env
         }
     }
 
-    public static function get(string $key = null): mixed
+    public static function get(string|array $keys = null): mixed
     {
-        if (!empty($key)) {
-            return $_ENV[$key];
+        if (is_array($keys)) {
+            $return = [];
+
+            foreach ($keys as $key) {
+                $return[] = $_ENV[$key];
+            }
+
+            return $return;
+        }
+
+        if (!empty($keys)) {
+            return $_ENV[$keys];
         }
 
         return $_ENV;

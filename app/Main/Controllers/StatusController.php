@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Api\Controllers;
+namespace App\Main\Controllers;
 
 use Core\Base\Controller;
 use Core\Modules\Http\Response;

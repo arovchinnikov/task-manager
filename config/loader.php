@@ -2,4 +2,4 @@
 
 $routes = ROOT . '/config/routes';
 
-require_once $routes . '/api.php';
+require_once $routes . '/main.php';
