@@ -6,6 +6,6 @@ use Core\Modules\Routing\Router;
 Router::add(
     '/api/health-check',
     Request::GET,
-    \App\Api\Controllers\StatusController::class,
+    \App\Main\Controllers\StatusController::class,
     'healthCheck'
 );

@@ -20,10 +20,8 @@ up:
 install: up
 	$(app) composer install --dev
 	$(migration) migrate -q
-	npm install
 update:
 	$(app) composer update
-	npm update
 down:
 	$(compose) down
 destroy:
